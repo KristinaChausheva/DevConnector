@@ -8,7 +8,7 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
 
-// @ route get api/users
+// @ route post api/users
 // @ desc register user
 // @access public
 router.post(
@@ -36,7 +36,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ eroors: [{ msg: 'User already exist' }] });
+          .json({ errors: [{ msg: 'User already exist' }] });
       }
       // get users gravatar
       const avatar = gravatar.url(email, {
@@ -53,7 +53,7 @@ router.post(
       });
       // encrypt password
       const salt = await bcrypt.genSalt(10);
-      user.passwod = await bcrypt.hash(password, salt);
+      user.password = await bcrypt.hash(password, salt);
       await user.save();
 
       //return jwt
